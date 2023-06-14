@@ -1,0 +1,10 @@
+{
+    "username": "(twitter-username)",
+
+    "_comment": "All time related things -- time for how long the bot will wait until next clip, and 'clipTime' for how long the clip will be.",
+    "time": "60",
+    "clipTime": "10",
+
+    "_comment2": "If your Nichijou episodes are a different format, change them here \/",
+    "videoFormat": "mp4"
+}
