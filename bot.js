@@ -17,11 +17,11 @@ var time = config.time * 60000;
 async function startProcess() {
     console.log(`ｰｰｰｰｰｰｰｰｰｰ✄ｰｰｰｰｰｰｰｰｰｰ`);
     // Get random epiosde.
-    /// Grab all the soggy files from the media directory
-    const imagesPath = path.join(__dirname, 'media');
-    const imageFileNames = fs.readdirSync(imagesPath)
+    /// Grab all the soggy files from the media directory // LOL THIS WAS FROM THE SOGGY CAT BOT
+    const videosPath = path.join(__dirname, 'media');
+    const videoFileNames = fs.readdirSync(videosPath);
 
-    var epSelect = getRandomArbitrary(1, imageFileNames.length - 1);
+    var epSelect = getRandomArbitrary(1, videoFileNames.length - 1);
     
     // Get video information.
     ffmpeg.ffprobe(`./media/${epSelect}.${config.videoFormat}`, async function(err, metadata) {
