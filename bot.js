@@ -1,7 +1,9 @@
-const {config, client, logger} = require("./botAuth");
+const {client, logger} = require("./botAuth");
 const ffmpeg = require('fluent-ffmpeg');
 const path = require('node:path');
 const fs = require('fs');
+const schedule = require('node-schedule');
+const config = require('./config.json');
 
 // getRandomArbitrary
 function getRandomArbitrary(min, max) {
@@ -9,19 +11,17 @@ function getRandomArbitrary(min, max) {
 }
 
 console.log(`ｰｰｰｰｰｰｰｰｰｰ✄ｰｰｰｰｰｰｰｰｰｰ`);
-logger.info(`Starting process...`)
-// START
-// Time for how long until new clip is uploaded
-var time = config.time * 60000;
+logger.info(`Starting process when it hits a new hour...`)
+
 // Start function
 async function startProcess() {
     console.log(`ｰｰｰｰｰｰｰｰｰｰ✄ｰｰｰｰｰｰｰｰｰｰ`);
     // Get random epiosde.
     /// Grab all the soggy files from the media directory // LOL THIS WAS FROM THE SOGGY CAT BOT
     const videosPath = path.join(__dirname, 'media');
-    const videoFileNames = fs.readdirSync(videosPath);
+    const imageFileNames = fs.readdirSync(videosPath)
 
-    var epSelect = getRandomArbitrary(1, videoFileNames.length - 1);
+    var epSelect = getRandomArbitrary(1, imageFileNames.length - 1);
     
     // Get video information.
     ffmpeg.ffprobe(`./media/${epSelect}.${config.videoFormat}`, async function(err, metadata) {
@@ -69,19 +69,22 @@ async function startProcess() {
             console.log(`ｰｰｰｰｰｰｰｰｰｰ✄ｰｰｰｰｰｰｰｰｰｰ`);
             logger.info(`Sent main tweet; https://twitter.com/${config.username}/status/${mainTweet.data.id}`);
 
-            // Optional: reply with ep. number and time (in seconds).
-            // var replyTweet = await client.v1.reply(`Episode ${epSelect}\n${clipStart} seconds to ${clipStart + config.clipTime} seconds`, mainTweet.id_str);
-            // logger.info(`Sent reply tweet; https://twitter.com/${botUsername}/status/${replyTweet.id_str}`);
+            // Oh! Don't forget the reply!
+            // Get time
+            var minutes = Math.floor(clipStart / 60);
+            var seconds = clipStart - minutes * 60;
+            // If seconds is less than 10, add a "0" at the start.
+            if (seconds < 10) seconds = "0" + seconds;
+
+            var replyTweet = await client.v2.reply(`Episode ${epSelect}\nStarts at ${minutes}:${seconds}`, mainTweet.data.id );
+            logger.info(`Sent reply tweet; https://twitter.com/${config.username}/status/${replyTweet.data.id}`);
         }
     });
 };
 
-// Start the bot when first loaded.
-startProcess();
-
-// After a while, start again.
-setInterval(() => {
+// After it hits an hour, start again.
+var j = schedule.scheduleJob('0 */1 * * *', function(){  // this for one hour
     console.log(`ｰｰｰｰｰｰｰｰｰｰ✄ｰｰｰｰｰｰｰｰｰｰ`);
     logger.info(`Time hit! Redoing process...`)
     startProcess();
-}, time);
+});

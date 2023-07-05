@@ -1,6 +1,5 @@
 const { TwitterApi } = require('twitter-api-v2');
 const auth = require(`./auth.json`)
-const config = require('./config.json');
 const logger = require('winston');
 
 
@@ -29,4 +28,4 @@ const client = authClient.readWrite;
 
 logger.info(`Logged in!`)
 
-module.exports = {config, client, logger}
+module.exports = {client, logger}
