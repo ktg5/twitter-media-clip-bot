@@ -1,6 +1,6 @@
 {
   "name": "oocnichijou-bot",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "A Twitter bot that posts clips of Nichijou!",
   "main": "bot.js",
   "scripts": {
@@ -13,6 +13,7 @@
   "dependencies": {
     "fluent-ffmpeg": "^2.1.2",
     "https-proxy-agent": "^5.0.1",
+    "node-schedule": "^2.1.1",
     "nodemon": "^2.0.15",
     "twitter-api-v2": "^1.14.2",
     "winston": "^2.4.4"

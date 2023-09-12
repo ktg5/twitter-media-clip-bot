@@ -60,24 +60,32 @@ async function startProcess() {
             // Redfine filePath for Twitter api.
             var filePath = `./${filepath}`;
 
-            // Upload media first...
-            const mediaId = await client.v1.uploadMedia(filePath);
-            logger.info('Upload Completed');
+            // Now we're gonna try to upload the media & tweets.
+            try {
+                
+                // Upload media first...
+                var mediaId = await client.v1.uploadMedia(filePath);
+                logger.info('Upload Completed');
 
-            // Then we can send in the tweet.
-            var mainTweet = await client.v2.tweet('', { media: { media_ids: [mediaId] } })
-            console.log(`ｰｰｰｰｰｰｰｰｰｰ✄ｰｰｰｰｰｰｰｰｰｰ`);
-            logger.info(`Sent main tweet; https://twitter.com/${config.username}/status/${mainTweet.data.id}`);
+                // Then we can send in the tweet.
+                var mainTweet = await client.v2.tweet('', { media: { media_ids: [mediaId] } })
+                console.log(`ｰｰｰｰｰｰｰｰｰｰ✄ｰｰｰｰｰｰｰｰｰｰ`);
+                logger.info(`Sent main tweet; https://twitter.com/${config.username}/status/${mainTweet.data.id}`);
 
-            // Oh! Don't forget the reply!
-            // Get time
-            var minutes = Math.floor(clipStart / 60);
-            var seconds = clipStart - minutes * 60;
-            // If seconds is less than 10, add a "0" at the start.
-            if (seconds < 10) seconds = "0" + seconds;
+                // Oh! Don't forget the reply!
+                // Get time
+                var minutes = Math.floor(clipStart / 60);
+                var seconds = clipStart - minutes * 60;
+                // If seconds is less than 10, add a "0" at the start.
+                if (seconds < 10) seconds = "0" + seconds;
 
-            var replyTweet = await client.v2.reply(`Episode ${epSelect}\nStarts at ${minutes}:${seconds}`, mainTweet.data.id );
-            logger.info(`Sent reply tweet; https://twitter.com/${config.username}/status/${replyTweet.data.id}`);
+                var replyTweet = await client.v2.reply(`Episode ${epSelect}\nStarts at ${minutes}:${seconds}`, mainTweet.data.id );
+                logger.info(`Sent reply tweet; https://twitter.com/${config.username}/status/${replyTweet.data.id}`);
+            
+            } catch (error) {
+                logger.error(`Something happened while uploading / trying to tweet!!`);
+                logger.error(error);
+            }
         }
     });
 };
