@@ -1,4 +1,4 @@
-# twitter-mediatoclip-bot
+# twitter-media-clip-bot
 A Twitter bot used for making clips out of randomly selected media.
 
 ## Requirements!!!
