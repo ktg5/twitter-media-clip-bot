@@ -1,4 +1,10 @@
 {
-    "username": "(twitter-username)",
-    "clipTime": "10"
+    "hours": 1,
+    "minutes": 0,
+    "clipTime": 10,
+    "videoFormat": "mp4",
+    "addReplyInsteadofAlt": false,
+
+    "message": "Video: \"{$__fileName__}\"\nStarts at {$__minutes__}:{$__seconds__}",
+    "__comment": "{$__fileName__} - This will be replaced with the name of the media file. {$__minutes__} - This will be replaced with the minutes of the clip. {$__seconds__} - This will be replaced with the seconds of the clip."
 }
