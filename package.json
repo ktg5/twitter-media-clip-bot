@@ -1,6 +1,6 @@
 {
   "name": "twitter-media-clip-bot",
-  "version": "2.0.0",
+  "version": "2.0.1",
   "description": "A Twitter bot that posts clips of your favorite media!",
   "main": "bot.js",
   "type": "module",
@@ -10,6 +10,9 @@
   },
   "author": "ktg5",
   "license": "ISC",
+  "overrides": {
+    "x-client-transaction-id": "latest"
+  },
   "dependencies": {
     "@types/fluent-ffmpeg": "^2.1.28",
     "@types/node-schedule": "^2.1.8",
